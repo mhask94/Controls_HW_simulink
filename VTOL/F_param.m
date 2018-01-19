@@ -1,11 +1,13 @@
 clear;clc
 
-% Physical parameters of the inverted pendulum known to the controller
-P.m1 = 0.35;     % Mass of the ball, kg
-P.m2 = 2.0;      % Mass of the beam, kg
-P.ell = 0.5;    % Length of the beam, m
-P.g = 9.8;       % Gravity, m/s**2
-P.b = 0.05;      % Damping coefficient, Ns
+% Physical parameters of the VTOL known to the controller
+P.ml = 0.25;     % Mass of the left prop, kg
+P.mc = 1.0;      % Mass of the center, kg
+P.m3 = 0.25;     % Mass of the right prop, kg
+P.Jc = .0042;    % Inertia of center
+P.d = 0.3;       % Distance from center to mid-prop, m
+P.g = 9.81;      % Gravity, m/s**2
+P.mu = 0.1;      % Viscosity?, kg/s
 
 % parameters for animation
 P.h = 0.05;      % Height of the beam, m
