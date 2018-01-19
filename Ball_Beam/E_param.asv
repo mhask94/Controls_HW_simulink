@@ -7,10 +7,8 @@ P.b = 0.05;      % Damping coefficient, Ns
 
 % parameters for animation
 P.h = 0.05;      % Height of the beam, m
-P.gap = 0.089;   % Gap between the cart and x-axis
+P.gap = 0.005;   % Gap between the cart and x-axis
 P.radius = 0.06; % Radius of circular part of pendulum
-P.l_lim = -1;    % Lower limit of graph axes
-P.u_lim = 1;    % Upper limit of graph axes
 
 % Initial Conditions
 P.z0 = 0.0;                % initial cart position, m

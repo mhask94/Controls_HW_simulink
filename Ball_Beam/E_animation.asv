@@ -24,10 +24,8 @@ function E_animation(u)
         plot([0, L],[0,0],'k:'); % plot track
         hold on
         beam_handle  = drawBeam(theta, L, []);
-        ball_handle = drawBall(z, theta, radius, gap, []);
+        ball_handle = drawBall(z, theta, gap, radius, []);
         axis([P.l_lim, P.u_lim, P.l_lim, P.u_lim]);
-        title('Ball and Beam')
-        xlabel('Z \it[m]')
     
         
     % at every other time step, redraw ball and beam
@@ -47,14 +45,12 @@ end
 %
 function new_handle = drawBall(z, theta, radius, gap, handle)
   
-  pt = [z;gap];
-  XY = [cos(theta) -sin(theta);sin(theta) cos(theta)]*pt;
-  X = XY(1); Y = XY(2);
-%   X = pt(1); Y = pt(2);
+  pt = [z;z*sin(theta)]
+
   if isempty(handle),
-    new_handle = plot(X,Y,'b.','MarkerSize',50);
+    new_handle = fill(pts(:,1),pts(:,2),'b');
   else
-    set(handle,'XData',X,'YData',Y);
+    set(handle,'XData',pts(:,1));
     drawnow
   end
 end
