@@ -9,10 +9,13 @@ P.mu = 0.1;      % Viscosity?, kg/s
 
 % parameters for animation
 P.h = 0.05;      % Height of the beam, m
-P.gap = 0.089;   % Gap between the cart and x-axis
+P.gap = 0.1;   % Gap between the cart and x-axis
 P.radius = 0.06; % Radius of circular part of pendulum
-P.l_lim = -1;    % Lower limit of graph axes
-P.u_lim = 1;    % Upper limit of graph axes
+P.l_lim = -.05;    % Lower limit of graph axes
+P.u_lim = 2;    % Upper limit of graph axes
+P.bl = .13;      % Body length of center, m
+P.a = .1;        % Prop length, m
+P.b = .025;       % Prop height, m
 
 % Initial Conditions
 P.z0 = 0.0;                % initial cart position, m
