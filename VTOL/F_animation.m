@@ -55,9 +55,9 @@ end
 %
 function handle = drawBody(zv, h, theta, handle)
   F_param
-  pt = [zv-P.bl/2 zv+P.bl/2;h h];
+  pt = [-P.bl/2 P.bl/2;0 0];
   XY = [cos(theta) -sin(theta);sin(theta) cos(theta)]*pt;
-  X = XY(1,:); Y = XY(2,:);
+  X = XY(1,:)+zv; Y = XY(2,:)+h;
 %   X = pt(1); Y = pt(2);
   if isempty(handle),
     handle = plot(X,Y,'g','LineWidth',10);
