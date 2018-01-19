@@ -1,3 +1,5 @@
+clear;clc
+
 % Physical parameters of the inverted pendulum known to the controller
 P.m1 = 0.25;     % Mass of the pendulum, kg
 P.m2 = 1.0;      % Mass of the cart, kg
