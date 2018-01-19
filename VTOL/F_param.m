@@ -1,5 +1,3 @@
-clear;clc
-
 % Physical parameters of the VTOL known to the controller
 P.ml = 0.25;     % Mass of the left prop, kg
 P.mc = 1.0;      % Mass of the center, kg

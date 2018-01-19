@@ -1,37 +1,45 @@
-function E_animation(u)
+function F_animation(u)
 
-    E_param
+    F_param
     % process inputs to function
-    z        = u(1);
-    theta    = u(2);
-    zdot     = u(3);
-    thetadot = u(4);
+    zv       = u(1);
+    zt       = u(2);
+    h        = u(3);
+    theta    = u(4);
     t        = u(5);
     
     % drawing parameters
-    L = P.ell;
+    d = P.d;
     gap = P.gap;
     height = P.h;
     radius = P.radius;
     
     % define persistent variables 
-    persistent ball_handle
-    persistent beam_handle
+    persistent body_handle
+    persistent Lprop_handle
+    persistent Rprop_handle
+    persistent line_handle
+    persistent target_handle
     
     % first time function is called, initialize plot and persistent vars
     if t==0,
         figure(1), clf
         plot([0, L],[0,0],'k:'); % plot track
         hold on
-        beam_handle  = drawBeam(theta, L, []);
-        ball_handle = drawBall(z, theta, gap, radius, []);
+        body_handle  = drawBody(zv, h, theta, []);
+        Lprop_handle = drawLprop(zv, h, theta, d, []);
+        Rprop_handle = drawRprop(zv, h, theta, d, []);
+        line_handle = drawLine(zv, h, theta, d, []);
+        target_handle = drawTarget(zt, []);
         axis([P.l_lim, P.u_lim, P.l_lim, P.u_lim]);
+        title('VTOL')
+        xlabel('Z \it[m]')
     
         
     % at every other time step, redraw ball and beam
     else 
-        drawBeam(theta, L, beam_handle);
-        drawBall(z, theta, radius, gap, ball_handle);
+        drawBeam(zt, L, beam_handle);
+        drawBall(zv, zt, radius, gap, ball_handle);
     end
 end
 
@@ -43,14 +51,16 @@ end
 % return handle if 3rd argument is empty, otherwise use 3rd arg as handle
 %=======================================================================
 %
-function new_handle = drawBall(z, theta, radius, gap, handle)
+function new_handle = drawBody(zv, h, theta, handle)
   
-  pt = [z;z*sin(theta)]
-
+  pt = [zv;h];
+  XY = [cos(theta) -sin(theta);sin(theta) cos(theta)]*pt;
+  X = XY(1); Y = XY(2);
+%   X = pt(1); Y = pt(2);
   if isempty(handle),
-    new_handle = fill(pts(:,1),pts(:,2),'b');
+    new_handle = plot(X,Y,'b.','MarkerSize',50);
   else
-    set(handle,'XData',pts(:,1));
+    set(handle,'XData',X,'YData',Y);
     drawnow
   end
 end
@@ -62,7 +72,7 @@ end
 % return handle if 3rd argument is empty, otherwise use 3rd arg as handle
 %=======================================================================
 %
-function handle = drawBeam(theta, L, handle)
+function handle = drawLprop(zv, h, theta, d, handle)
 
   
   X = [0, L];

@@ -11,8 +11,6 @@ function E_animation(u)
     % drawing parameters
     L = P.ell;
     gap = P.gap;
-    height = P.h;
-    radius = P.radius;
     
     % define persistent variables 
     persistent ball_handle
@@ -24,7 +22,7 @@ function E_animation(u)
         plot([0, L],[0,0],'k:'); % plot track
         hold on
         beam_handle  = drawBeam(theta, L, []);
-        ball_handle = drawBall(z, theta, radius, gap, []);
+        ball_handle = drawBall(z, theta, gap, []);
         axis([P.l_lim, P.u_lim, P.l_lim, P.u_lim]);
         title('Ball and Beam')
         xlabel('Z \it[m]')
@@ -33,7 +31,7 @@ function E_animation(u)
     % at every other time step, redraw ball and beam
     else 
         drawBeam(theta, L, beam_handle);
-        drawBall(z, theta, radius, gap, ball_handle);
+        drawBall(z, theta, gap, ball_handle);
     end
 end
 
@@ -45,14 +43,14 @@ end
 % return handle if 3rd argument is empty, otherwise use 3rd arg as handle
 %=======================================================================
 %
-function new_handle = drawBall(z, theta, radius, gap, handle)
+function handle = drawBall(z, theta, gap, handle)
   
   pt = [z;gap];
   XY = [cos(theta) -sin(theta);sin(theta) cos(theta)]*pt;
   X = XY(1); Y = XY(2);
 %   X = pt(1); Y = pt(2);
   if isempty(handle),
-    new_handle = plot(X,Y,'b.','MarkerSize',50);
+    handle = plot(X,Y,'b.','MarkerSize',50);
   else
     set(handle,'XData',X,'YData',Y);
     drawnow

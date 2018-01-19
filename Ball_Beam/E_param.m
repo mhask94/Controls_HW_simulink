@@ -1,5 +1,3 @@
-clear;clc
-
 % Physical parameters of the inverted pendulum known to the controller
 P.m1 = 0.35;     % Mass of the ball, kg
 P.m2 = 2.0;      % Mass of the beam, kg
