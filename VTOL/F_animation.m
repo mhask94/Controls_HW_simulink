@@ -3,9 +3,9 @@ function F_animation(u)
     F_param
     % process inputs to function
     zv       = u(1);
-    zt       = u(2);
-    h        = u(3);
-    theta    = u(4);
+    h        = u(2);
+    theta    = u(3);
+    zt       = u(4);
     t        = u(5);
     
     % drawing parameters

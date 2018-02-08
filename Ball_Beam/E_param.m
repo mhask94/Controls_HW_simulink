@@ -3,7 +3,7 @@ P.m1 = 0.35;     % Mass of the ball, kg
 P.m2 = 2.0;      % Mass of the beam, kg
 P.ell = 0.5;    % Length of the beam, m
 P.g = 9.8;       % Gravity, m/s**2
-P.b = 0.05;      % Damping coefficient, Ns
+% P.b = 0.05;      % Damping coefficient, Ns
 
 % parameters for animation
 P.h = 0.05;      % Height of the beam, m
@@ -13,7 +13,7 @@ P.l_lim = -1;    % Lower limit of graph axes
 P.u_lim = 1;    % Upper limit of graph axes
 
 % Initial Conditions
-P.z0 = 0.0;                % initial cart position, m
+P.z0 = P.ell/2;                % initial cart position, m
 P.theta0 = 0.0*pi/180;     % initial rod angle, rads
 P.zdot0 = 0.0;             % initial cart velocity, m/s
 P.thetadot0 = 0.0;         % initial rod angular velocity, rads/s

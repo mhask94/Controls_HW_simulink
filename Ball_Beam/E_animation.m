@@ -4,9 +4,9 @@ function E_animation(u)
     % process inputs to function
     z        = u(1);
     theta    = u(2);
-    zdot     = u(3);
-    thetadot = u(4);
-    t        = u(5);
+%     zdot     = u(3);
+%     thetadot = u(4);
+    t        = u(3);
     
     % drawing parameters
     L = P.ell;

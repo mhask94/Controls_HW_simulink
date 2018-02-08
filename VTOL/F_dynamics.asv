@@ -65,9 +65,9 @@ function [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes(P)
 %
 sizes = simsizes;
 
-sizes.NumContStates  = 4;
+sizes.NumContStates  = 6;
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = 2;
+sizes.NumOutputs     = 3;
 sizes.NumInputs      = 1;
 sizes.DirFeedthrough = 0;
 sizes.NumSampleTimes = 1;   % at least one sample time is needed
@@ -77,7 +77,7 @@ sys = simsizes(sizes);
 %
 % initialize the initial conditions
 %
-x0  = [P.z0; P.theta0; P.zdot0; P.thetadot0];
+x0  = [P.zv0; P.h0; P.theta0; P.zvd0; P.hd0; P.thetad0];
 
 %
 % str is always an empty matrix
@@ -105,11 +105,15 @@ simStateCompliance = 'UnknownSimState';
 %=============================================================================
 %
 function sys=mdlDerivatives(t,x,u,P)
-  z        = x(1);
-  theta    = x(2);
-  zdot     = x(3);
-  thetadot = x(4);
-  F        = u(1);
+  zv       = x(1);
+  h        = x(2);
+  theta    = x(3);
+  zvd      = x(4);
+  hd       = x(5);
+  thetad   = x(6);
+  Fr       = u(1);
+  Fl       = u(2);
+  
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % The parameters for any physical system are never known exactly.  Feedback
@@ -118,26 +122,30 @@ function sys=mdlDerivatives(t,x,u,P)
   % that represents alpha*100 % of the parameter, i.e., alpha = 0.2, means that the parameter
   % may change by up to 20%.  A different parameter value is chosen every time the simulation
   % is run.
-  persistent m1
-  persistent m2
-  persistent ell
-%   persistent b
+  persistent mr
+%   persistent ml
+  persistent mc
+  persistent Jc
+  persistent mu
   persistent g
+  persistent d
   if t==0
     alpha = 0.0;  % uncertainty parameter
-    m1 = P.m1 * (1+2*alpha*rand-alpha);  % kg
-    m2 = P.m2 * (1+2*alpha*rand-alpha);     % kg
-    ell = P.ell * (1+2*alpha*rand-alpha); % m
-%     b = P.b * (1+2*alpha*rand-alpha); % N m
+    mr = P.mr * (1+2*alpha*rand-alpha);  % kg
+%     ml = P.ml * (1+2*alpha*rand-alpha);     % kg
+    mc = P.mc * (1+2*alpha*rand-alpha);  % kg
+    Jc = P.Jc * (1+2*alpha*rand-alpha); % 
+    mu = P.mu * (1+2*alpha*rand-alpha); % 
     g = P.g; % the gravity vector is well known and so we don't change it.
+    d = P.d;
   end
 
   % define system dynamics xdot=f(x,u)  
-  zddot     = z*thetadot^2-g*sin(theta);
-  thetaddot = (F*ell*cos(theta)-2*m1*z*zdot*thetadot-m1*g*z*cos(theta)-...
-      .5*m2*g*ell*cos(theta))/(m2*ell^2/3+m1*z^2); 
+  zvdd = -(mu*zvd+(Fr+F*sin(theta))/(mc+2*mr);
+  hdd = F*cos(theta)/(mc+2*mr)-g;
+  thetadd = d*(Fr-Fl)/(Jc+2*mr*d^2);
 
-sys = [zdot; thetadot; zddot; thetaddot];
+sys = [zvd; hd; thetad; zvdd; hdd; thetadd];
 
 % end mdlDerivatives
 
@@ -161,12 +169,13 @@ sys = [];
 %=============================================================================
 %
 function sys=mdlOutputs(t,x,u)
-    z        = x(1);
-    theta    = x(2);
+    zv       = x(1);
+    h        = x(2);
+    theta    = x(3);
     % add Gaussian noise to the outputs
-    z_m = z;% + 0.01*randn;
-    theta_m = theta;% + 0.001*randn;
-sys = [z_m; theta_m];%; x];
+%     z_m = z;% + 0.01*randn;
+%     theta_m = theta;% + 0.001*randn;
+sys = [zv; h; theta];%; x];
 
 % end mdlOutputs
 
