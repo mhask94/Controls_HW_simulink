@@ -7,6 +7,10 @@ function F_animation(u)
     theta    = u(3);
     zt       = u(4);
     t        = u(5);
+%     theta    = u(2);
+%     zt       = u(3);
+%     t        = u(4);
+%     h        = u(5);
     
     % drawing parameters
     d = P.d;

@@ -65,10 +65,12 @@ function [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes(P)
 %
 sizes = simsizes;
 
-sizes.NumContStates  = 6;
+% sizes.NumContStates  = 6;
+sizes.NumContStates  = 4;
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = 3;
-sizes.NumInputs      = 1;
+% sizes.NumOutputs     = 3;
+sizes.NumOutputs     = 2;
+sizes.NumInputs      = 2;
 sizes.DirFeedthrough = 0;
 sizes.NumSampleTimes = 1;   % at least one sample time is needed
 
@@ -77,7 +79,8 @@ sys = simsizes(sizes);
 %
 % initialize the initial conditions
 %
-x0  = [P.zv0; P.h0; P.theta0; P.zvd0; P.hd0; P.thetad0];
+% x0  = [P.zv0; P.h0; P.theta0; P.zvd0; P.hd0; P.thetad0];
+x0  = [P.zv0; P.theta0; P.zvd0; P.thetad0];
 
 %
 % str is always an empty matrix
@@ -106,11 +109,16 @@ simStateCompliance = 'UnknownSimState';
 %
 function sys=mdlDerivatives(t,x,u,P)
   zv       = x(1);
-  h        = x(2);
-  theta    = x(3);
-  zvd      = x(4);
-  hd       = x(5);
-  thetad   = x(6);
+%   h        = x(2);
+%   theta    = x(3);
+%   zvd      = x(4);
+%   hd       = x(5);
+%   thetad   = x(6);
+%   Fr       = u(1);
+%   Fl       = u(2);
+  theta    = x(2);
+  zvd      = x(3);
+  thetad   = x(4);
   Fr       = u(1);
   Fl       = u(2);
   
@@ -141,11 +149,14 @@ function sys=mdlDerivatives(t,x,u,P)
   end
 
   % define system dynamics xdot=f(x,u)  
-  zvdd = -(mu*zvd+(Fr+F*sin(theta))/(mc+2*mr);
-  hdd = F*cos(theta)/(mc+2*mr)-g;
-  thetadd = d*(Fr-Fl)/(Jc+2*mr*d^2);
+%   zvdd = -(mu*zvd+(Fr+Fl)*sin(theta))/(mc+2*mr);
+  zvdd = 0;
+%   hdd = (Fr+Fl)*cos(theta)/(mc+2*mr)-g;
+%   thetadd = d*(Fr-Fl)/(Jc+2*mr*d^2);
+  thetadd = 0;
 
-sys = [zvd; hd; thetad; zvdd; hdd; thetadd];
+% sys = [zvd; hd; thetad; zvdd; hdd; thetadd];
+sys = [zvd; thetad; zvdd; thetadd];
 
 % end mdlDerivatives
 
@@ -170,12 +181,14 @@ sys = [];
 %
 function sys=mdlOutputs(t,x,u)
     zv       = x(1);
-    h        = x(2);
-    theta    = x(3);
+%     h        = x(2);
+%     theta    = x(3);
+    theta    = x(2);
     % add Gaussian noise to the outputs
 %     z_m = z;% + 0.01*randn;
 %     theta_m = theta;% + 0.001*randn;
-sys = [zv; h; theta];%; x];
+% sys = [zv; h; theta];%; x];
+sys = [zv; theta];%; x];
 
 % end mdlOutputs
 
