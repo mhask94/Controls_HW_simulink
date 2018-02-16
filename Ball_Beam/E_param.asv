@@ -34,8 +34,7 @@ P.kd_th = 2*h_th*Wn_th/C1/P.ell;
 P.kp_th = Wn_th^2/(C1*P.ell);
 
 % Outer Loop Gains
-% tr_z = 10.0*tr_th;  % for 8e
-tr_z = 3.8*tr_th; % for 8f
+tr_z = 3.8*tr_th;
 h_z = .707;
 Wn_z = 2.2/tr_z;
 P.kd_z = -2*h_z*Wn_z/P.g
