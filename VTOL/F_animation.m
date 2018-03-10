@@ -22,9 +22,10 @@ function F_animation(u)
     % first time function is called, initialize plot and persistent vars
     if t==0,
         figure(1), clf
-        plot([P.l_lim, P.u_lim],[0,0],'k:'); % plot track
+        plot([-100, 100],[0,0],'k:'); % plot track
         hold on
-        axis([P.l_lim, P.u_lim, P.l_lim, P.u_lim]);
+%         axis([P.l_lim, P.u_lim, -.05, P.u_lim]);
+        axis([-2.5, 2.5, -.1, 3])
         axis('square')
         title('VTOL')
         xlabel('Z \it[m]')

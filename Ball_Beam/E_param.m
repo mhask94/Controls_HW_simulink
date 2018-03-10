@@ -13,7 +13,7 @@ P.l_lim = -1;    % Lower limit of graph axes
 P.u_lim = 1;    % Upper limit of graph axes
 
 % Initial Conditions
-P.z0 = P.ell/2;                % initial cart position, m
+P.z0 = P.ell/2;            % initial cart position, m
 P.theta0 = 0.0*pi/180;     % initial rod angle, rads
 P.zdot0 = 0.0;             % initial cart velocity, m/s
 P.thetadot0 = 0.0;         % initial rod angular velocity, rads/s
@@ -38,5 +38,5 @@ P.kp_th = Wn_th^2/(C1*P.ell);
 tr_z = 3.8*tr_th; % for 8f
 h_z = .707;
 Wn_z = 2.2/tr_z;
-P.kd_z = -2*h_z*Wn_z/P.g
-P.kp_z = -Wn_z^2/P.g;
+P.kd_z = -2*h_z*Wn_z/P.g;
+P.kp_z = -Wn_z^2/P.g
