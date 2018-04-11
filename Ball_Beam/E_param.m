@@ -39,4 +39,4 @@ tr_z = 3.8*tr_th; % for 8f
 h_z = .707;
 Wn_z = 2.2/tr_z;
 P.kd_z = -2*h_z*Wn_z/P.g;
-P.kp_z = -Wn_z^2/P.g
+P.kp_z = -Wn_z^2/P.g;
