@@ -1,8 +1,11 @@
-function u = E_ctrl(in,P)
+function u = E_ctrl(in)
 r = [in(1);0;0;0];
 x = [in(2);in(3);in(4);in(5)];
 t = in(6);
 error = r(1) - x(1);
+
+% Make sure this matches E_param.m, I couldn't figure out how to import it
+Ts = 0.01;
 
 x_e = [.25;0;0;0];
 x_tilde = x - x_e;
@@ -13,7 +16,7 @@ if t == 0
     integrator = 0;
     error_d1 = 0;
 end
-integrator = integrator + (P.Ts/2)*(error+error_d1);
+integrator = integrator + (Ts/2)*(error+error_d1);
 error_d1 = error;
 
 r_e = 0.25;
@@ -27,16 +30,16 @@ u_e = 9.8/2*(0.35+2.0);
 % u_tilde = -K*x_tilde + kr*r_tilde(1);
 
 % State-space control w/ integrator
-K = [-6.9707 3.2822 -0.2669 1.5760];
-ki = 0.0156;
+K = [-28.6569   36.0270  -12.6431    5.3547];
+ki = 6.9175;
 u_tilde = -K*x_tilde - ki*integrator;
 
 u_unsat = u_e + u_tilde;
-u = sat(u_unsat);
+u = sat(u_unsat,15);
 
 % Integrator anti-windup
 if ki ~= 0
-    integrator = integrator + P.Ts/ki * (u-u_unsat);
+    integrator = integrator + Ts/ki * (u-u_unsat);
 end
 
 end
