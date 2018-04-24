@@ -41,7 +41,7 @@ error_d1_lat = error_lat;
 K_lon = [11     6];
 ki_lon = -4.1667;
 
-u_lon_tilde = -K_lon*x_lon_tilde - ki_lon*integrator_lon;
+u_lon_tilde = -K_lon*(x_lon_tilde-x_lon_e) - ki_lon*integrator_lon;
 u_unsat_lon = u_lon_e + u_lon_tilde;
 u_lon = sat(u_unsat_lon,25);
 
@@ -50,7 +50,7 @@ u_lon = sat(u_unsat_lon,25);
 K_lat = [-0.2845    1.5692   -0.2961    0.4144];
 ki_lat = 0.0834;
 
-u_lat_tilde = -K_lat*x_lat_tilde - ki_lat*integrator_lat;
+u_lat_tilde = -K_lat*(x_lat_tilde-x_lat_e) - ki_lat*integrator_lat;
 u_unsat_lat = u_lat_e + u_lat_tilde;
 u_lat = sat(u_unsat_lat,5);
 

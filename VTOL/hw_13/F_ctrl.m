@@ -25,8 +25,8 @@ if t < .01
 end
 
 % Euler integration version
-xhat_lon = eulerIntegration_lon(xhat_lon,x_lon_e,force,u_lon_e,x_lon_m);
-xhat_lat = eulerIntegration_lat(xhat_lat,x_lat_e,tau,u_lat_e,x_lat_m);
+xhat_lon = eulerIntegration_lon(xhat_lon,x_lon_e,force,u_lon_e,x_lon_m(1));
+xhat_lat = eulerIntegration_lat(xhat_lat,x_lat_e,tau,u_lat_e,x_lat_m(1:2));
 
 persistent integrator_lon
 persistent error_d1_lon
@@ -50,7 +50,7 @@ ki_lon = -23.4560;
 % K_lon = [26.2133    8.0000];
 % ki_lon = -19.5467;
 
-u_lon_tilde = -K_lon*xhat_lon - ki_lon*integrator_lon;
+u_lon_tilde = -K_lon*(xhat_lon-x_lon_e) - ki_lon*integrator_lon;
 u_unsat_lon = u_lon_e + u_lon_tilde;
 u_lon = sat(u_unsat_lon,25);
 
@@ -59,7 +59,7 @@ ki_lat = 0.3134;
 % K_lat = [-0.2845    1.5692   -0.2961    0.4144];
 % ki_lat = 0.0834;
 
-u_lat_tilde = -K_lat*xhat_lat - ki_lat*integrator_lat;
+u_lat_tilde = -K_lat*(xhat_lat-x_lat_e) - ki_lat*integrator_lat;
 u_unsat_lat = u_lat_e + u_lat_tilde;
 u_lat = sat(u_unsat_lat,5);
 

@@ -45,7 +45,7 @@ K = [-293.4447  116.3392  -78.4309    9.2387];
 ki = 288.9929;
 % K = [-262.1371  112.0027  -73.1589    9.0501];
 % ki = 192.6619;
-u_tilde = -K*xhat - ki*integrator;
+u_tilde = -K*(xhat-x_e) - ki*integrator;
 
 u_unsat = u_e + u_tilde;
 u = sat(u_unsat,15);
@@ -76,7 +76,7 @@ function out = eulerIntegration(xhat,x_e,u,u_e,y_m)
 %     L = 1.0e+03*[0.1151 -0.0060;0.0037 0.1149;6.5538 -0.1468;-0.1503 6.5344];
     L = 1.0e+03*[0.1148 -0.0020;0.0068 0.1152;7.0748 0.2919;0.2484 7.0886];
     for i = 1:N
-        xhat = xhat + (Ts/N) * (A*(xhat-x_e) + B*(u-u_e) + L*(y_m-C*(xhat)));
+        xhat = xhat + (Ts/N) * (A*(xhat-x_e) + B*(u-u_e) + L*(y_m-C*xhat));
     end
     out = xhat;
 end

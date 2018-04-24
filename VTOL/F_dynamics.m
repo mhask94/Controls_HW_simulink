@@ -135,7 +135,7 @@ function sys=mdlDerivatives(t,x,u,P)
   persistent g
   persistent d
   if t==0
-    alpha = 0.0;  % uncertainty parameter
+    alpha = 0.2;  % uncertainty parameter
     mr = P.mr * (1+2*alpha*rand-alpha);  % kg
 %     ml = P.ml * (1+2*alpha*rand-alpha);     % kg
     mc = P.mc * (1+2*alpha*rand-alpha);  % kg
