@@ -52,7 +52,7 @@ ki_lon = -23.4560;
 
 u_lon_tilde = -K_lon*(xhat_lon-x_lon_e) - ki_lon*integrator_lon;
 u_unsat_lon = u_lon_e + u_lon_tilde;
-u_lon = sat(u_unsat_lon,25);
+force = sat(u_unsat_lon,25);
 
 K_lat = [-0.6294    1.9764   -0.4669    0.4389];
 ki_lat = 0.3134;
@@ -61,15 +61,15 @@ ki_lat = 0.3134;
 
 u_lat_tilde = -K_lat*(xhat_lat-x_lat_e) - ki_lat*integrator_lat;
 u_unsat_lat = u_lat_e + u_lat_tilde;
-u_lat = sat(u_unsat_lat,5);
+tau = sat(u_unsat_lat,5)*0;
 
 % Integrator anti-windup
 if ki_lat ~= 0 && ki_lon ~= 0
-    integrator_lat = sat(integrator_lat + Ts/ki_lat * (u_lat-u_unsat_lat),18); % 17
-    integrator_lon = integrator_lon + Ts/ki_lon * (u_lon-u_unsat_lon);
+    integrator_lat = sat(integrator_lat + Ts/ki_lat * (tau-u_unsat_lat),18); % 17
+    integrator_lon = integrator_lon + Ts/ki_lon * (force-u_unsat_lon);
 end
 
-u = [u_lon;u_lat;xhat_lon;xhat_lat];
+u = [force;tau;xhat_lon;xhat_lat];
 end
 
 function out = sat(in,limit)
